@@ -1,0 +1,218 @@
+track KF297339.1
+type bigGenePred
+group map
+priority 1
+bigDataUrl KF297339.1.bb
+longLabel Annotated CDS for HCMV strain TB40-E (KF297339.1)
+shortLabel HCMV-TB40-E
+visibility pack
+
+##############################################
+
+track arpe_tb40E_96hpi_noflavo
+container multiWig
+type bigWig
+aggregate transparentOverlay
+showSubtrackColorOnUi on
+shortLabel arpe_tb40E_96hpi_noflavo
+longLabel arpe_tb40E_96hpi_noflavo
+visibility full
+autoScale group
+maxHeightPixels 100:50:8
+type bigWig
+priority 2
+
+	track arpe_tb40E_96hpi_noflavo_for
+	parent arpe_tb40E_96hpi_noflavo
+	shortLabel arpe_tb40E_96hpi_noflavo_forwrad
+	longLabel arpe_tb40E_96hpi_noflavo_forward
+	bigDataUrl bw/arpe_tb40E_96hpi_noflavo_cmv_for.bw
+	type bigWig
+	color 113,35,124
+	altColor 113,35,124
+	priority 2.1
+
+	track arpe_tb40E_96hpi_noflavo_rev
+	parent arpe_tb40E_96hpi_noflavo
+	shortLabel arpe_tb40E_96hpi_noflavo_reverse
+	longLabel arpe_tb40E_96hpi_noflavo_reverse
+	bigDataUrl bw/arpe_tb40E_96hpi_noflavo_cmv_rev.bw
+	type bigWig
+	negateValues on
+	color 242,157,228
+	altColor 242,157,228
+	priority 2.2
+
+track arpe_tb40E_96hpi_noflavo_fiveprime
+container multiWig
+type bigWig
+aggregate transparentOverlay
+showSubtrackColorOnUi on
+shortLabel arpe_tb40E_96hpi_noflavo
+longLabel arpe_tb40E_96hpi_noflavo
+visibility full
+autoScale group
+maxHeightPixels 100:50:8
+type bigWig
+priority 2
+
+	track arpe_tb40E_96hpi_noflavo_fiveprime_for
+	parent arpe_tb40E_96hpi_noflavo_fiveprime
+	shortLabel arpe_tb40E_96hpi_noflavo_fiveprime_forward
+	longLabel arpe_tb40E_96hpi_noflavo_fiveprime_forward
+	bigDataUrl bw/arpe_tb40E_96hpi_noflavo_cmv_for.fiveprime.bw
+	type bigWig
+	color 113,35,124
+	altColor 113,35,124
+	priority 2.1
+
+	track arpe_tb40E_96hpi_noflavo_fiveprime_rev
+	parent arpe_tb40E_96hpi_noflavo_fiveprime
+	shortLabel arpe_tb40E_96hpi_noflavo_fiveprime_reverse
+	longLabel arpe_tb40E_96hpi_noflavo_fiveprime_reverse
+	bigDataUrl bw/arpe_tb40E_96hpi_noflavo_cmv_rev.fiveprime.bw
+	type bigWig
+	negateValues on
+	color 242,157,228
+	altColor 242,157,228
+	priority 2.2
+
+##############################################
+
+track arpe_mock
+container multiWig
+type bigWig
+aggregate transparentOverlay
+showSubtrackColorOnUi on
+shortLabel arpe_mock
+longLabel arpe_mock
+visibility full
+autoScale group
+maxHeightPixels 100:50:8
+type bigWig
+priority 2
+
+	track arpe_mock_for
+	parent arpe_mock
+	shortLabel arpe_mock_forwrad
+	longLabel arpe_mock_forward
+	bigDataUrl bw/arpe_mock_cmv_for.bw
+	type bigWig
+	color 113,35,124
+	altColor 113,35,124
+	priority 2.1
+
+	track arpe_mock_rev
+	parent arpe_mock
+	shortLabel arpe_mock_reverse
+	longLabel arpe_mock_reverse
+	bigDataUrl bw/arpe_mock_cmv_rev.bw
+	type bigWig
+	negateValues on
+	color 242,157,228
+	altColor 242,157,228
+	priority 2.2
+
+track arpe_mock_fiveprime
+container multiWig
+type bigWig
+aggregate transparentOverlay
+showSubtrackColorOnUi on
+shortLabel arpe_mock
+longLabel arpe_mock
+visibility full
+autoScale group
+maxHeightPixels 100:50:8
+type bigWig
+priority 2
+
+	track arpe_mock_fiveprime_for
+	parent arpe_mock_fiveprime
+	shortLabel arpe_mock_fiveprime_forward
+	longLabel arpe_mock_fiveprime_forward
+	bigDataUrl bw/arpe_mock_cmv_for.fiveprime.bw
+	type bigWig
+	color 113,35,124
+	altColor 113,35,124
+	priority 2.1
+
+	track arpe_mock_fiveprime_rev
+	parent arpe_mock_fiveprime
+	shortLabel arpe_mock_fiveprime_reverse
+	longLabel arpe_mock_fiveprime_reverse
+	bigDataUrl bw/arpe_mock_cmv_rev.fiveprime.bw
+	type bigWig
+	negateValues on
+	color 242,157,228
+	altColor 242,157,228
+	priority 2.2
+
+##############################################
+
+track arpe_tb40E_96hpi_flavo
+container multiWig
+type bigWig
+aggregate transparentOverlay
+showSubtrackColorOnUi on
+shortLabel arpe_tb40E_96hpi_flavo
+longLabel arpe_tb40E_96hpi_flavo
+visibility full
+autoScale group
+maxHeightPixels 100:50:8
+type bigWig
+priority 2
+
+	track arpe_tb40E_96hpi_flavo_for
+	parent arpe_tb40E_96hpi_flavo
+	shortLabel arpe_tb40E_96hpi_flavo_forwrad
+	longLabel arpe_tb40E_96hpi_flavo_forward
+	bigDataUrl bw/arpe_tb40E_96hpi_flavo_cmv_for.bw
+	type bigWig
+	color 113,35,124
+	altColor 113,35,124
+	priority 2.1
+
+	track arpe_tb40E_96hpi_flavo_rev
+	parent arpe_tb40E_96hpi_flavo
+	shortLabel arpe_tb40E_96hpi_flavo_reverse
+	longLabel arpe_tb40E_96hpi_flavo_reverse
+	bigDataUrl bw/arpe_tb40E_96hpi_flavo_cmv_rev.bw
+	type bigWig
+	negateValues on
+	color 242,157,228
+	altColor 242,157,228
+	priority 2.2
+
+track arpe_tb40E_96hpi_flavo_fiveprime
+container multiWig
+type bigWig
+aggregate transparentOverlay
+showSubtrackColorOnUi on
+shortLabel arpe_tb40E_96hpi_flavo
+longLabel arpe_tb40E_96hpi_flavo
+visibility full
+autoScale group
+maxHeightPixels 100:50:8
+type bigWig
+priority 2
+
+	track arpe_tb40E_96hpi_flavo_fiveprime_for
+	parent arpe_tb40E_96hpi_flavo_fiveprime
+	shortLabel arpe_tb40E_96hpi_flavo_fiveprime_forward
+	longLabel arpe_tb40E_96hpi_flavo_fiveprime_forward
+	bigDataUrl bw/arpe_tb40E_96hpi_flavo_cmv_for.fiveprime.bw
+	type bigWig
+	color 113,35,124
+	altColor 113,35,124
+	priority 2.1
+
+	track arpe_tb40E_96hpi_flavo_fiveprime_rev
+	parent arpe_tb40E_96hpi_flavo_fiveprime
+	shortLabel arpe_tb40E_96hpi_flavo_fiveprime_reverse
+	longLabel arpe_tb40E_96hpi_flavo_fiveprime_reverse
+	bigDataUrl bw/arpe_tb40E_96hpi_flavo_cmv_rev.fiveprime.bw
+	type bigWig
+	negateValues on
+	color 242,157,228
+	altColor 242,157,228
+	priority 2.2
