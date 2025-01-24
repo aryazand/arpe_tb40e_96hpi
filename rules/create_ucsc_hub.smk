@@ -3,6 +3,9 @@
 ##################
 
 rule create_bigwig_symlinks:
+    # create symlinks for bigwig files to contain all UCSC Trackhub files in the same folder
+    # However, symlinks do not seem to work when the trackhub is uploaded to github
+    # Therefore, this rule is not used in the current pipeline
     input:
         bw = "results/tracks/{sample}_{species}_{direction}.{ext}",
         gff3 = "data/genome/{species}/{genome}.gff"
@@ -23,10 +26,10 @@ rule create_trackdb:
     # prepare a UCSC genome browser trackdb.txt file
     # TODO: add track colors
     input:
-        samples = expand("results/UCSCGenomeBrowser/{{species}}/{{genome}}/bw/{sample}_{{species}}_{direction}.bw", 
+        samples = expand("results/tracks/{sample}_{{species}}_{direction}.bw", 
                     sample = sample_names, 
                     direction = ['rev', 'for']),
-        fiveprime_samples = expand("results/UCSCGenomeBrowser/{{species}}/{{genome}}/bw/{sample}_{{species}}_{direction}.fiveprime.bw", 
+        fiveprime_samples = expand("results/tracks/{sample}_{{species}}_{direction}.fiveprime.bw", 
                     sample = sample_names, 
                     direction = ['rev', 'for']),
         bigbed = lambda wc: "results/UCSCGenomeBrowser/{species}/{genome}/{genome}.bb"
@@ -34,6 +37,8 @@ rule create_trackdb:
         trackdb_file = "results/UCSCGenomeBrowser/{species}/{genome}/trackDb.txt"
     log:
         "log/create_trackdb_{species}_{genome}.log"
+    params:
+        bw_folder = "../../../tracks/"
     run:
         # create trackdb file
         with open(output.trackdb_file, 'w') as tf:
@@ -75,7 +80,7 @@ rule create_trackdb:
                     '\tparent {}'.format(sample),
                     '\tshortLabel {}_forwrad'.format(sample),
                     '\tlongLabel {}_forward'.format(sample),
-                    '\tbigDataUrl bw/{}_for.bw'.format(sample + "_" + wildcards.species),
+                    '\tbigDataUrl {}_for.bw'.format(params.bw_folder + sample + "_" + wildcards.species),
                     '\ttype bigWig',
                     '\tcolor 113,35,124',
                     '\taltColor 113,35,124',
@@ -85,7 +90,7 @@ rule create_trackdb:
                     '\tparent {}'.format(sample),
                     '\tshortLabel {}_reverse'.format(sample),
                     '\tlongLabel {}_reverse'.format(sample),
-                    '\tbigDataUrl bw/{}_rev.bw'.format(sample + "_" + wildcards.species),
+                    '\tbigDataUrl {}_rev.bw'.format(params.bw_folder + sample + "_" + wildcards.species),
                     '\ttype bigWig',
                     '\tnegateValues on',
                     '\tcolor 242,157,228', 
@@ -97,8 +102,8 @@ rule create_trackdb:
                     'type bigWig',
                     'aggregate transparentOverlay',
                     'showSubtrackColorOnUi on',
-                    'shortLabel {}'.format(sample),
-                    'longLabel {}'.format(sample),
+                    'shortLabel {}'.format(sample + " fiveprime"),
+                    'longLabel {}'.format(sample + " fiveprime"),
                     'visibility full',
                     'autoScale group',
                     'maxHeightPixels 100:50:8',
@@ -109,7 +114,7 @@ rule create_trackdb:
                     '\tparent {}_fiveprime'.format(sample),
                     '\tshortLabel {}_fiveprime_forward'.format(sample),
                     '\tlongLabel {}_fiveprime_forward'.format(sample),
-                    '\tbigDataUrl bw/{}_for.fiveprime.bw'.format(sample + "_" + wildcards.species),
+                    '\tbigDataUrl {}_for.fiveprime.bw'.format(params.bw_folder + sample + "_" + wildcards.species),
                     '\ttype bigWig',
                     '\tcolor 113,35,124',
                     '\taltColor 113,35,124',
@@ -119,7 +124,7 @@ rule create_trackdb:
                     '\tparent {}_fiveprime'.format(sample),
                     '\tshortLabel {}_fiveprime_reverse'.format(sample),
                     '\tlongLabel {}_fiveprime_reverse'.format(sample),
-                    '\tbigDataUrl bw/{}_rev.fiveprime.bw'.format(sample + "_" + wildcards.species),
+                    '\tbigDataUrl {}_rev.fiveprime.bw'.format(params.bw_folder + sample + "_" + wildcards.species),
                     '\ttype bigWig',
                     '\tnegateValues on',
                     '\tcolor 242,157,228', 
@@ -181,9 +186,30 @@ rule create_genometxt:
 
 rule hubcheck:
     # use hubCheck to validate the hub
-    input:
+    params:
         hub = expand("results/UCSCGenomeBrowser/{species}/hub.txt", species = config["genomes"].keys())
     conda:
         "../envs/ucsc_hubcheck.yml"
     shell:
-        "hubCheck {input.hub}"
+        "hubCheck {params.hub}"
+
+rule create_url: 
+    # create a URL to the UCSC Genome Browser hub
+    params:
+        browser_folder = "results/UCSCGenomeBrowser", 
+        species = list(config["genomes"].keys()),
+        main_folder = "refs/heads/main",
+        ucsc_baseurl = "https://genome.ucsc.edu/cgi-bin/hgTracks"
+    shell:
+        """
+        git_origin=$(git remote get-url origin)
+        github_raw=$(echo $git_origin | sed 's/github.com/raw.githubusercontent.com/g')
+
+        sed -i '/^## Url to UCSC Trackhub/,/^##/{{/^#/!d}}' README.md
+
+        for species in {params.species}; do
+            hub_url="$github_raw/{params.main_folder}/{params.browser_folder}/$species/hub.txt"
+            genome=$(head -n 1 results/UCSCGenomeBrowser/$species/genomes.txt | cut -d ' ' -f 2)
+            sed -i "/## Url to UCSC Trackhub/a $species trackhub: <{params.ucsc_baseurl}?genome=$genome&hubUrl=$hub_url>\\n" README.md 
+        done
+        """
